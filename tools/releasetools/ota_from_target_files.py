@@ -627,6 +627,15 @@ def WriteFingerprintAssertion(script, target_info, source_info):
         source_info.GetBuildProp("ro.build.thumbprint"))
 
 
+def CopyInstallTools(output_zip):
+  oldcwd = os.getcwd()
+  os.chdir(os.getenv('OUT'))
+  for root, subdirs, files in os.walk("install"):
+    for f in files:
+      p = os.path.join(root, f)
+      output_zip.write(p, p)
+  os.chdir(oldcwd)
+
 def AddCompatibilityArchiveIfTrebleEnabled(target_zip, output_zip, target_info,
                                            source_info=None):
   """Adds compatibility info into the output zip if it's Treble-enabled target.
@@ -743,7 +752,7 @@ def WriteFullOTAPackage(input_zip, output_file):
       output_zip=output_zip,
       script=script,
       input_tmp=OPTIONS.input_tmp,
-      metadata=metadata,
+       metadata=metadata,
       info_dict=OPTIONS.info_dict)
 
   assert HasRecoveryPatch(input_zip)
@@ -807,6 +816,11 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
 
   script.AppendExtra("ifelse(is_mounted(\"/system\"), unmount(\"/system\"));")
   device_specific.FullOTA_InstallBegin()
+
+  CopyInstallTools(output_zip)
+  script.UnpackPackageDir("install", "/tmp/install")
+  script.SetPermissionsRecursive("/tmp/install", 0, 0, 0755, 0644, None, None)
+  script.SetPermissionsRecursive("/tmp/install/bin", 0, 0, 0755, 0755, None, None)
 
   system_progress = 0.75
 
