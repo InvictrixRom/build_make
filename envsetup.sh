@@ -137,6 +137,15 @@ function check_product()
         echo "Couldn't locate the top of the tree.  Try setting TOP." >&2
         return
     fi
+
+    if (echo -n $1 | grep -q -e "^invictrix_") ; then
+        INVICTRIX_BUILD=$(echo -n $1 | sed -e 's/^invictrix_//g')
+        export BUILD_NUMBER=$((date +%s%N ; echo $INVICTRIX_BUILD; hostname) | openssl sha1 | sed -e 's/.*=//g; s/ //g' | cut -c1-10)
+    else
+        INVICTRIX_BUILD=
+    fi
+    export INVICTRIX_BUILD
+
         TARGET_PRODUCT=$1 \
         TARGET_BUILD_VARIANT= \
         TARGET_BUILD_TYPE= \
