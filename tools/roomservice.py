@@ -36,22 +36,22 @@ except ImportError:
 
 # Config
 # set this to the default remote to use in repo
-default_rem = "github"
+default_rem = "invictrix"
 # set this to the default revision to use (branch/tag name)
-default_rev = "android-7.0"
+default_rev = "10"
 # set this to the remote that you use for projects from your team repos
 # example fetch="https://github.com/omnirom"
-default_team_rem = "omnirom"
+default_team_rem = "invictrixrom"
 # this shouldn't change unless google makes changes
 local_manifest_dir = ".repo/local_manifests"
 # change this to your name on github (or equivalent hosting)
-android_team = "omnirom"
+android_team = "InvictrixROM"
 # url to gerrit repository
-gerrit_url = "gerrit.omnirom.org"
+gerrit_url = "review.invictrixrom.com"
 
 
 def check_repo_exists(git_data, device):
-    re_match = "^android_device_.*_{device}$".format(device=device)
+    re_match = "^device_.*_{device}$".format(device=device)
     matches = filter(lambda x: re.match(re_match, x), git_data)
     if len(matches) != 1:
         raise Exception("{device} not found,"
@@ -84,7 +84,7 @@ def search_gerrit_for_device(device):
 
 
 def parse_device_directory(device_url, device):
-    pattern = "^android_device_(?P<vendor>.+)_{}$".format(device)
+    pattern = "^device_(?P<vendor>.+)_{}$".format(device)
     match = re.match(pattern, device_url)
 
     if match is None:
@@ -184,7 +184,7 @@ def write_to_manifest(manifest):
 def parse_device_from_manifest(device):
     for project in iterate_manifests():
         name = project.get('name')
-        if name.startswith("android_device_") and name.endswith(device):
+        if name.startswith("device_") and name.endswith(device):
             return project.get('path')
     return None
 
