@@ -440,6 +440,8 @@ endif
 	        TARGET_CPU_ABI_LIST_64_BIT="$(TARGET_CPU_ABI_LIST_64_BIT)" \
 	        TARGET_CPU_ABI="$(TARGET_CPU_ABI)" \
 	        TARGET_CPU_ABI2="$(TARGET_CPU_ABI2)" \
+          TARGET_UNIFIED_DEVICE="$(TARGET_UNIFIED_DEVICE)" \
+          TARGET_SETS_FSTAB="$(TARGET_SETS_FSTAB)" \
 	        bash $(BUILDINFO_SH) >> $@
 	$(hide) $(foreach file,$(system_prop_file), \
 	    if [ -f "$(file)" ]; then \
@@ -4212,6 +4214,11 @@ PATH=$(foreach p,$(INTERNAL_USERIMAGES_BINARY_PATHS),$(p):)$$PATH MKBOOTIMG=$(MK
    --block \
    --extracted_input_target_files $(patsubst %.zip,%,$(BUILT_TARGET_FILES_PACKAGE)) \
    -p $(HOST_OUT) \
+   --backup=$(backuptool) \
+   --override_device=$(override_device) \
+   --override_prop=$(override_prop) \
+   --mount_by_label=$(mount_by_label) \
+   $(TARGET_RELEASETOOL_OTA_FROM_TARGET_ADDITIONAL_ARGS) \
    $(if $(OEM_OTA_CONFIG), -o $(OEM_OTA_CONFIG)) \
    $(2) \
    $(BUILT_TARGET_FILES_PACKAGE) $(1)
@@ -4236,6 +4243,33 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BROTLI)
 endif
 
 $(INTERNAL_OTA_PACKAGE_TARGET): .KATI_IMPLICIT_OUTPUTS := $(INTERNAL_OTA_METADATA)
+
+ifneq ($(INVICTRIX_BUILD),)
+    $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := true
+else
+     $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := false
+endif
+
+ifeq ($(TARGET_OTA_ASSERT_DEVICE),)
+    $(INTERNAL_OTA_PACKAGE_TARGET): override_device := auto
+else
+    $(INTERNAL_OTA_PACKAGE_TARGET): override_device := $(TARGET_OTA_ASSERT_DEVICE)
+endif
+
+ifeq ($(TARGET_UNIFIED_DEVICE),)
+    $(INTERNAL_OTA_PACKAGE_TARGET): override_prop := false
+else
+    $(INTERNAL_OTA_PACKAGE_TARGET): override_prop := true
+endif
+
+ifneq ($(TARGET_SETS_FSTAB),)
+    $(INTERNAL_OTA_PACKAGE_TARGET): mount_by_label := true
+else
+    $(INTERNAL_OTA_PACKAGE_TARGET): mount_by_label := false
+    ifeq ($(TARGET_OTA_ASSERT_DEVICE),)
+        $(INTERNAL_OTA_PACKAGE_TARGET): override_device := $(TARGET_DEVICE)
+    endif
+endif
 
 $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) \
 	    build/make/tools/releasetools/ota_from_target_files

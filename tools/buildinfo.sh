@@ -49,8 +49,11 @@ echo "ro.wifi.channels=$PRODUCT_DEFAULT_WIFI_CHANNELS"
 echo "# ro.build.product is obsolete; use ro.product.device"
 echo "ro.build.product=$TARGET_DEVICE"
 
-echo "# Do not try to parse description or thumbprint"
-echo "ro.build.description=$PRIVATE_BUILD_DESC"
+if [ "$TARGET_UNIFIED_DEVICE" == "" ] ; then
+  echo "# Do not try to parse description"
+  echo "ro.build.description=$PRIVATE_BUILD_DESC"
+fi
+
 if [ -n "$BUILD_THUMBPRINT" ] ; then
   echo "ro.build.thumbprint=$BUILD_THUMBPRINT"
 fi
