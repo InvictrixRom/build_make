@@ -39,7 +39,7 @@ invert_bool = $(if $(strip $(1)),,true)
 # but only updates soong.variables if it changes
 $(shell mkdir -p $(dir $(SOONG_VARIABLES)))
 _contents := {$(newline)
-
+include vendor/gzosp/build/soong/soong_config.mk
 $(call add_json_str,  Make_suffix, -$(TARGET_PRODUCT))
 
 $(call add_json_str,  BuildId,                           $(BUILD_ID))
@@ -153,7 +153,7 @@ _contents := $(_contents)$(if $(strip $(SOONG_CONFIG_NAMESPACES)),__SV_END)    }
 
 _contents := $(subst $(comma)$(newline)__SV_END,$(newline),$(_contents)__SV_END}$(newline))
 
-$(file >$(SOONG_VARIABLES).tmp,$(_contents))
+$(file >>$(SOONG_VARIABLES).tmp,$(_contents))
 
 $(shell if ! cmp -s $(SOONG_VARIABLES).tmp $(SOONG_VARIABLES); then \
 	  mv $(SOONG_VARIABLES).tmp $(SOONG_VARIABLES); \
