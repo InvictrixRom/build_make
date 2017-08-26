@@ -25,7 +25,22 @@ ANDROID_GCC_PREBUILTS := prebuilts/gcc/$(HOST_PREBUILT_TAG)
 #   DUMP_VAR_PREFIX: an optional prefix of the variable name added to the output.
 .PHONY: dump-many-vars
 dump-many-vars :
+	HOST_OS_EXTRA:=$(shell python -c "import platform; print(platform.platform())")
+	ifneq ($(BUILD_WITH_COLORS),0)
+		include $(TOP_DIR)build/core/colors.mk
+	endif
+	$(info $(CLR_RED)=====================================================$(CLR_RST))
+	$(info $(CLR_RED)     ____    ________   _____   ____    ____         $(CLR_RST))
+	$(info $(CLR_RED)    /\  _`\ /\_____  \ /\  __`\/\  _`\ /\  _`\       $(CLR_RST))
+	$(info $(CLR_RED)    \ \ \L\_\/____//'/'\ \ \/\ \ \,\L\_\ \ \L\ \     $(CLR_RST))
+	$(info $(CLR_RED)     \ \ \L_L    //'/'  \ \ \ \ \/_\__ \\ \ ,__/     $(CLR_RST))
+	$(info $(CLR_RED)      \ \ \/, \ //'/'___ \ \ \_\ \/\ \L\ \ \ \/      $(CLR_RST))
+	$(info $(CLR_RED)       \ \____/ /\_______\\ \_____\ `\____\ \_\      $(CLR_RST))
+	$(info $(CLR_RED)        \/___/  \/_______/ \/_____/\/_____/\/_/      $(CLR_RST))
+	$(info $(CLR_RED)                                                     $(CLR_RST))
+	$(info $(CLR_RED)=====================================================$(CLR_RST))
 	@$(foreach v, $(DUMP_MANY_VARS),\
-	  echo "$(DUMP_VAR_PREFIX)$(v)='$($(v))'";)
+	  echo "$(DUMP_VAR_PREFIX)$(CLR_RED)$(v)='$($(v))'$(CLR_RST)";)
+	$(info $(CLR_RED)=====================================================$(CLR_RST))
 
 endif # CALLED_FROM_SETUP
