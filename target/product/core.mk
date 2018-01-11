@@ -42,6 +42,7 @@ PRODUCT_PACKAGES += \
     KeyChain \
     Keyguard \
     Launcher3QuickStep \
+    Launcher3 \
     ManagedProvisioning \
     MtpDocumentsProvider \
     PacProcessor \
