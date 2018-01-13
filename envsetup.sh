@@ -139,13 +139,13 @@ function check_product()
         return
     fi
 
-    if (echo -n $1 | grep -q -e "^carbon_") ; then
-        CARBON_BUILD=$(echo -n $1 | sed -e 's/^carbon_//g')
-        export BUILD_NUMBER=$((date +%s%N ; echo $CARBON_BUILD; hostname) | openssl sha1 | sed -e 's/.*=//g; s/ //g' | cut -c1-10)
+    if (echo -n $1 | grep -q -e "^invictrix_") ; then
+        INVICTRIX_BUILD=$(echo -n $1 | sed -e 's/^invictrix_//g')
+        export BUILD_NUMBER=$((date +%s%N ; echo $INVICTRIX_BUILD; hostname) | openssl sha1 | sed -e 's/.*=//g; s/ //g' | cut -c1-10)
     else
-        CARBON_BUILD=
+        INVICTRIX_BUILD=
     fi
-    export CARBON_BUILD
+    export INVICTRIX_BUILD
 
         TARGET_PRODUCT=$1 \
         TARGET_BUILD_VARIANT= \
