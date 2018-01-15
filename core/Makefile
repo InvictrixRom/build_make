@@ -2802,7 +2802,7 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) \
 	   $(TARGET_RELEASETOOL_OTA_FROM_TARGET_ADDITIONAL_ARGS) \
 	   $(BUILT_TARGET_FILES_PACKAGE) $@
 
-INVICTRIX_TARGET_PACKAGE := $(PRODUCT_OUT)/Invictrix-$(INVICTRIX_VERSION).zip
+INVICTRIX_TARGET_PACKAGE := $(PRODUCT_OUT)/Invictrix-$(TARGET_DEVICE)-$(INVICTRIX_VERSION).zip
 
 # This is for PhaseBurn
 .PHONY: sandwich measandwich
@@ -2846,6 +2846,7 @@ bacon: otapackage
 	$(hide) $(MD5SUM) $(INVICTRIX_TARGET_PACKAGE) > $(INVICTRIX_TARGET_PACKAGE).md5sum
 	@echo ""
 	@echo -e ${CL_YLW}"════════════════════════════════════════════════════════════════════════════════"${CL_RST}
+	@echo -e ${CL_CYN}"Device Name: "${CL_MAG} $(TARGET_DEVICE)                                            ${CL_RST}
 	@echo -e ${CL_CYN}"Package zip: "${CL_MAG} $(INVICTRIX_TARGET_PACKAGE)                                 ${CL_RST}
 	@echo -e ${CL_CYN}"Package md5: "${CL_MAG}" `cat $(INVICTRIX_TARGET_PACKAGE).md5sum | cut -d ' ' -f 1`"${CL_RST}
 	@echo -e ${CL_CYN}"Package size:"${CL_MAG}" `du -h $(INVICTRIX_TARGET_PACKAGE) | cut -f 1`            "${CL_RST}

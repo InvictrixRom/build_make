@@ -36,18 +36,18 @@ except ImportError:
 
 # Config
 # set this to the default remote to use in repo
-default_rem = "carbon"
+default_rem = "invictrix-devices"
 # set this to the default revision to use (branch/tag name)
-default_rev = "cr-6.1"
+default_rev = "o-mr1"
 # set this to the remote that you use for projects from your team repos
 # example fetch="https://github.com/omnirom"
-default_team_rem = "carbon"
+default_team_rem = "invictrix-devices"
 # this shouldn't change unless google makes changes
 local_manifest_dir = ".repo/local_manifests"
 # change this to your name on github (or equivalent hosting)
-android_team = "CarbonROM"
+android_team = "InvictrixROM"
 # url to gerrit repository
-gerrit_url = "review.carbonrom.org"
+gerrit_url = "review.invictrixrom.com"
 
 
 def check_repo_exists(git_data, device):
@@ -190,7 +190,7 @@ def write_to_manifest(manifest):
 def parse_device_from_manifest(device):
     for project in iterate_manifests():
         name = project.get('name')
-        if name.startswith("{android_team}/android_device_".format(android_team=android_team)) and name.endswith(device):
+        if name.startswith("{android_team}/device_".format(android_team=android_team)) and name.endswith(device):
             return project.get('path')
     return None
 
@@ -213,7 +213,7 @@ def parse_device_from_folder(device):
 
 
 def parse_dependency_file(location):
-    dep_file = "carbon.dependencies"
+    dep_file = "invictrix.dependencies"
     dep_location = '/'.join([location, dep_file])
     if not os.path.isfile(dep_location):
         print("WARNING: %s file not found" % dep_location)
