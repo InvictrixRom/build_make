@@ -2839,7 +2839,7 @@ sandwich:
 	@echo -e ${CL_CYN}"                      \`        \`                                   "${CL_RST}
 measandwich: sandwich
 
-.PHONY: otapackage bacon
+.PHONY: otapackage bacon ota
 otapackage: $(INTERNAL_OTA_PACKAGE_TARGET)
 bacon: otapackage
 	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(INVICTRIX_TARGET_PACKAGE)
@@ -2851,6 +2851,11 @@ bacon: otapackage
 	@echo -e ${CL_CYN}"Package md5: "${CL_MAG}" `cat $(INVICTRIX_TARGET_PACKAGE).md5sum | cut -d ' ' -f 1`"${CL_RST}
 	@echo -e ${CL_CYN}"Package size:"${CL_MAG}" `du -h $(INVICTRIX_TARGET_PACKAGE) | cut -f 1`            "${CL_RST}
 	@echo -e ${CL_YLW}"════════════════════════════════════════════════════════════════════════════════"${CL_RST}
+
+ota: bacon
+	$(hide) xdelta3 -f -e -9 -v -s /usr/share/nginx/html/latest-$(TARGET_DEVICE).zip $(INVICTRIX_TARGET_PACKAGE) /usr/share/nginx/html/latest-$(TARGET_DEVICE).zip.delta
+	$(hide) cp $(INVICTRIX_TARGET_PACKAGE) /usr/share/nginx/html/latest-$(TARGET_DEVICE).zip
+	@echo "Delta size:" `du -h /usr/share/nginx/html/latest-$(TARGET_DEVICE).zip.delta | cut -f 1`
 
 endif    # build_ota_package
 
