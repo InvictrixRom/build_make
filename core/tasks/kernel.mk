@@ -114,7 +114,7 @@ KERNEL_HEADER_DEFCONFIG := $(KERNEL_DEFCONFIG)
 endif
 
 ifeq ($(BOARD_KERNEL_IMAGE_NAME),)
-$(error BOARD_KERNEL_IMAGE_NAME not defined.)
+#$(error BOARD_KERNEL_IMAGE_NAME not defined.)
 endif
 ifneq ($(TARGET_USES_UNCOMPRESSED_KERNEL),)
 $(error TARGET_USES_UNCOMPRESSED_KERNEL is deprecated.)
@@ -343,7 +343,7 @@ INSTALLED_KERNEL_MODULES:
 			done && \
 			rm -rf $$mpath && \
 			mkdir -p $(KERNEL_DEPMOD_STAGING_DIR)/lib/modules/0.0/$(KERNEL_MODULE_MOUNTPOINT)/lib/modules && \
-			cp $(KERNEL_MODULES_OUT)/*.ko $(KERNEL_DEPMOD_STAGING_DIR)/lib/modules/0.0/$(KERNEL_MODULE_MOUNTPOINT)/lib/modules && \
+			( cp $(KERNEL_MODULES_OUT)/*.ko $(KERNEL_DEPMOD_STAGING_DIR)/lib/modules/0.0/$(KERNEL_MODULE_MOUNTPOINT)/lib/modules || true ) && \
 			$(DEPMOD) -b $(KERNEL_DEPMOD_STAGING_DIR) 0.0 && \
 			sed -e 's/\(.*modules.*\):/\/\1:/g' -e 's/ \([^ ]*modules[^ ]*\)/ \/\1/g' $(KERNEL_DEPMOD_STAGING_DIR)/lib/modules/0.0/modules.dep > $(KERNEL_MODULES_OUT)/modules.dep; \
 		fi
