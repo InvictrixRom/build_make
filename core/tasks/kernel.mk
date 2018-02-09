@@ -31,7 +31,7 @@
 #   TARGET_KERNEL_HEADER_ARCH          = Optional Arch for kernel headers if
 #                                          different from TARGET_KERNEL_ARCH
 #   TARGET_KERNEL_CROSS_COMPILE_PREFIX = Compiler prefix (e.g. arm-eabi-)
-#                                          defaults to arm-linux-androidkernel- for arm
+#                                          defaults to arm-eabi- for arm
 #                                                      aarch64-linux-androidkernel- for arm64
 #                                                      x86_64-linux-androidkernel- for x86
 #
@@ -237,7 +237,7 @@ KERNEL_TOOLCHAIN_PREFIX ?= $(TARGET_KERNEL_CROSS_COMPILE_PREFIX)
 else ifeq ($(KERNEL_ARCH),arm64)
 KERNEL_TOOLCHAIN_PREFIX ?= aarch64-linux-androidkernel-
 else ifeq ($(KERNEL_ARCH),arm)
-KERNEL_TOOLCHAIN_PREFIX ?= arm-linux-androidkernel-
+KERNEL_TOOLCHAIN_PREFIX ?= arm-eabi-
 else ifeq ($(KERNEL_ARCH),x86)
 KERNEL_TOOLCHAIN_PREFIX ?= x86_64-linux-androidkernel-
 endif
