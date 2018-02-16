@@ -199,7 +199,7 @@ OPTIONS.backuptool = False
 OPTIONS.brotli = True
 
 METADATA_NAME = 'META-INF/com/android/metadata'
-UNZIP_PATTERN = ['IMAGES/*', 'META/*']
+UNZIP_PATTERN = ['IMAGES/*', 'META/*', 'INSTALL/*', 'SYSTEM/build.prop']
 
 
 def SignOutput(temp_zip_name, output_zip_name):
@@ -1046,7 +1046,7 @@ def WriteVerifyPackage(input_zip, output_zip):
   WriteMetadata(metadata, output_zip)
 
 
-def WriteABOTAPackageWithBrilloScript(target_file, output_file,
+def WriteABOTAPackageWithBrilloScript(input_zip, target_file, output_file,
                                       source_file=None):
   """Generate an Android OTA package that has A/B update payload."""
 
@@ -1250,6 +1250,9 @@ def WriteABOTAPackageWithBrilloScript(target_file, output_file,
   common.ZipWrite(output_zip, properties_file,
                   arcname="payload_properties.txt",
                   compress_type=zipfile.ZIP_STORED)
+
+  common.ZipWriteStr(output_zip, "system/build.prop",
+                     ""+input_zip.read("SYSTEM/build.prop"))
 
   # If dm-verity is supported for the device, copy contents of care_map
   # into A/B OTA package.
@@ -1505,7 +1508,9 @@ def main(argv):
         print("--- source info ---")
         common.DumpInfoDict(OPTIONS.source_info_dict)
 
+    input_zip = zipfile.ZipFile(args[0], "r")
     WriteABOTAPackageWithBrilloScript(
+        input_zip,
         target_file=args[0],
         output_file=args[1],
         source_file=OPTIONS.incremental_source)
