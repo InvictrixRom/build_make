@@ -525,33 +525,22 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
     script.Print("Formatting /data")
     script.FormatPartition("/data", OPTIONS.mount_by_label)
 
-  script.Print("                 ,....,                 ");
-  script.Print("           .,lx0XNWWWNKOd:.             ");
-  script.Print("        .:OWMMMMMMMMMMMMMMMXo.          ");
-  script.Print("      .oWMMMMMMMMMMMMMMMMMMMMM0,        ");
-  script.Print("     cWMMMMMMMMMMMMMMMMMMMMMMMMMO.      ");
-  script.Print("   .OMMMMMMMMMMMMMMMMMMMMMMMMMMWd.      ");
-  script.Print("  .KMMMMMMMMMKkdlllldkKMMMMMMMO.        ");
-  script.Print("  OMMMM`  x;.          .;xWMX;          ");
-  script.Print(" :MMMM  ..`               .;.           ");
-  script.Print(" KMMM  .o;                              ");
-  script.Print(".MMM  .0M;                              ");
-  script.Print("'MM` .KMMl                              ");
-  script.Print(".MN  xMMM0                              ");
-  script.Print(".NM ,MMMMM:                           ..");
-  script.Print(" dM :MMMMMW'                         .k ");
-  script.Print(" .N cMMMMMMW;                       'Xc ");
-  script.Print("  ,x;MMMMMMMMx.                   .oW0. ");
-  script.Print("   ,.NMMMMMMMMWx'                lNMK.  ");
-  script.Print("     ,NMMMMMMMMMMXx:'.     ..:o ,MMO.   ");
-  script.Print("      .kMMMMMMMMMMMMMMNXXXNMMW  NWl.    ");
-  script.Print("        ,OMMMMMMMMMMMMMMMMMMK  Xd.      ");
-  script.Print("          .oKMMMMMMMMMMMMMKc  :.        ");
-  script.Print("             .:okKNWWWNKdl'  '          ");
-  script.Print("                 ''...`',  +'           ");
-  script.Print("                                        ");
-  script.Print("                carbonrom.org           ");
-
+  script.Print("                .+hNNy/`                ");
+  script.Print("             `+dNNNNNNNNd+`             ");
+  script.Print("            :mNNNNNNNNNNNNm-            ");
+  script.Print("            mNNNNNNNNNNNNNNd`           ");
+  script.Print("           .NNNNNNNNNNNNNNNN-           ");
+  script.Print("           .Ns+hNNNNNNNNdo+N:           ");
+  script.Print("           `Nh` `/hNNd+- .sN/           ");
+  script.Print("           `NNmhd.hNNm`hddNN:           ");
+  script.Print("            +NNNN/:oo/`mNNNh`           ");
+  script.Print("            :NNNN+     mNNNd            ");
+  script.Print("            :NNNN+     dNNNd`           ");
+  script.Print("            `dNNN+     hNNNs            ");
+  script.Print("             .dNN+     yNNs`            ");
+  script.Print("              `oN:     +m+              ");
+  script.Print("                                        ");  
+  script.Print("              InvictrixROM              ");
   system_progress = 0.75
 
   if OPTIONS.wipe_user_data:
