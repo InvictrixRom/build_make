@@ -2785,6 +2785,12 @@ else
     $(INTERNAL_OTA_PACKAGE_TARGET): mount_by_label := false
 endif
 
+ifeq ($(ANDROID_COMPILE_WITH_BROTLI),true)
+    $(INTERNAL_OTA_PACKAGE_TARGET): brotli := true
+else
+    $(INTERNAL_OTA_PACKAGE_TARGET): brotli := false
+endif
+
 $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) \
 		$(OTA_FROM_TARGET_SCRIPT)
 	@echo -e ${CL_YLW}"Package OTA:"${CL_RST}" $@"
@@ -2798,6 +2804,7 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) \
 	   --override_device=$(override_device) \
 	   --override_prop=$(override_prop) \
 	   --mount_by_label=$(mount_by_label) \
+	   --brotli=$(brotli) \
 	   $(if $(OEM_OTA_CONFIG), -o $(OEM_OTA_CONFIG)) \
 	   $(TARGET_RELEASETOOL_OTA_FROM_TARGET_ADDITIONAL_ARGS) \
 	   $(BUILT_TARGET_FILES_PACKAGE) $@
