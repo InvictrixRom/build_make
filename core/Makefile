@@ -2784,9 +2784,9 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) \
 	   $(if $(OEM_OTA_CONFIG), -o $(OEM_OTA_CONFIG)) \
 	   $(BUILT_TARGET_FILES_PACKAGE) $@
 
-INVICTRIX_TARGET_PACKAGE := $(PRODUCT_OUT)/$(INVICTRIX_VERSION).zip
+INVICTRIX_TARGET_PACKAGE := $(PRODUCT_OUT)/Invictrix-$(TARGET_DEVICE)-$(INVICTRIX_VERSION).zip
 
-.PHONY: otapackage bacon invictrix logo
+.PHONY: otapackage bacon invictrix treble ota
 otapackage: $(INTERNAL_OTA_PACKAGE_TARGET)
 bacon: otapackage
 	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(INVICTRIX_TARGET_PACKAGE)
@@ -2796,24 +2796,56 @@ bacon: otapackage
 	$(hide) $(MD5SUM) $(INVICTRIX_TARGET_PACKAGE) > $(INVICTRIX_TARGET_PACKAGE).md5sum
 	@echo -e ${CL_RED}""${CL_RED}
 	@echo -e ${CL_RED}""${CL_RED}
+	@echo -e ${CL_RED}"═════════════════════════════════════════════════════════════"${CL_RED}
 	@echo -e ${CL_RED}"██╗███╗   ██╗██╗   ██╗██╗ ██████╗████████╗██████╗ ██╗██╗  ██╗"${CL_RED}
 	@echo -e ${CL_RED}"██║████╗  ██║██║   ██║██║██╔════╝╚══██╔══╝██╔══██╗██║╚██╗██╔╝"${CL_RED}
 	@echo -e ${CL_RED}"██║██╔██╗ ██║██║   ██║██║██║        ██║   ██████╔╝██║ ╚███╔╝ "${CL_RED}
 	@echo -e ${CL_RED}"██║██║╚██╗██║╚██╗ ██╔╝██║██║        ██║   ██╔══██╗██║ ██╔██╗ "${CL_RED}
 	@echo -e ${CL_RED}"██║██║ ╚████║ ╚████╔╝ ██║╚██████╗   ██║   ██║  ██║██║██╔╝ ██╗"${CL_RED}
 	@echo -e ${CL_RED}"╚═╝╚═╝  ╚═══╝  ╚═══╝  ╚═╝ ╚═════╝   ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝"${CL_RED}
+	@echo -e ${CL_RED}"═════════════════════════════════════════════════════════════"${CL_RED}
+	@echo -e ${CL_RED}"Device Name: "${CL_BLU} $(TARGET_DEVICE)                                            ${CL_RST}
+	@echo -e ${CL_RED}"Package zip: "${CL_BLU} $(INVICTRIX_TARGET_PACKAGE)                                 ${CL_RST}
+	@echo -e ${CL_RED}"Package md5: "${CL_BLU}" `cat $(INVICTRIX_TARGET_PACKAGE).md5sum | cut -d ' ' -f 1`"${CL_RST}
+	@echo -e ${CL_RED}"Package size:"${CL_BLU}" `du -h $(INVICTRIX_TARGET_PACKAGE) | cut -f 1`            "${CL_RST}
+	@echo -e ${CL_RED}"═════════════════════════════════════════════════════════════"${CL_RST}
 	@echo -e "Package complete: $(INVICTRIX_TARGET_PACKAGE)"
 invictrix: bacon
 
-logo:
+ota: bacon
+	$(hide) xdelta3 -f -e -9 -v -s /usr/share/nginx/html/latest-$(TARGET_DEVICE).zip $(INVICTRIX_TARGET_PACKAGE) /usr/share/nginx/html/latest-$(TARGET_DEVICE).zip.delta
+	$(hide) cp $(INVICTRIX_TARGET_PACKAGE) /usr/share/nginx/html/latest-$(TARGET_DEVICE).zip
 	@echo -e ${CL_RED}""${CL_RED}
 	@echo -e ${CL_RED}""${CL_RED}
+	@echo -e ${CL_RED}"═════════════════════════════════════════════════════════════"${CL_RED}
 	@echo -e ${CL_RED}"██╗███╗   ██╗██╗   ██╗██╗ ██████╗████████╗██████╗ ██╗██╗  ██╗"${CL_RED}
 	@echo -e ${CL_RED}"██║████╗  ██║██║   ██║██║██╔════╝╚══██╔══╝██╔══██╗██║╚██╗██╔╝"${CL_RED}
 	@echo -e ${CL_RED}"██║██╔██╗ ██║██║   ██║██║██║        ██║   ██████╔╝██║ ╚███╔╝ "${CL_RED}
 	@echo -e ${CL_RED}"██║██║╚██╗██║╚██╗ ██╔╝██║██║        ██║   ██╔══██╗██║ ██╔██╗ "${CL_RED}
 	@echo -e ${CL_RED}"██║██║ ╚████║ ╚████╔╝ ██║╚██████╗   ██║   ██║  ██║██║██╔╝ ██╗"${CL_RED}
 	@echo -e ${CL_RED}"╚═╝╚═╝  ╚═══╝  ╚═══╝  ╚═╝ ╚═════╝   ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝"${CL_RED}
+	@echo -e ${CL_RED}"═════════════════════════════════════════════════════════════"${CL_RED}
+	@echo -e ${CL_RED}"Device Name: "${CL_BLU} $(TARGET_DEVICE)                                            ${CL_RST}
+	@echo -e ${CL_RED}"Delta: "${CL_BLU}"/usr/share/nginx/html/latest-$(TARGET_DEVICE).zip.delta"          ${CL_RST}
+	@echo -e ${CL_RED}"Delta size: "${CL_BLU}" `du -h /usr/share/nginx/html/latest-$(TARGET_DEVICE).zip | cut -f 1`            "${CL_RST}
+	@echo -e ${CL_RED}"═════════════════════════════════════════════════════════════"${CL_RED}
+
+ifeq ($(PRODUCT_FULL_TREBLE),true)
+treble: systemimage bootimage
+	@echo ""
+	@echo ""
+	@echo -e ${CL_RED}"═════════════════════════════════════════════════════════════"${CL_RED}
+	@echo -e ${CL_RED}"██╗███╗   ██╗██╗   ██╗██╗ ██████╗████████╗██████╗ ██╗██╗  ██╗"${CL_RED}
+	@echo -e ${CL_RED}"██║████╗  ██║██║   ██║██║██╔════╝╚══██╔══╝██╔══██╗██║╚██╗██╔╝"${CL_RED}
+	@echo -e ${CL_RED}"██║██╔██╗ ██║██║   ██║██║██║        ██║   ██████╔╝██║ ╚███╔╝ "${CL_RED}
+	@echo -e ${CL_RED}"██║██║╚██╗██║╚██╗ ██╔╝██║██║        ██║   ██╔══██╗██║ ██╔██╗ "${CL_RED}
+	@echo -e ${CL_RED}"██║██║ ╚████║ ╚████╔╝ ██║╚██████╗   ██║   ██║  ██║██║██╔╝ ██╗"${CL_RED}
+	@echo -e ${CL_RED}"╚═╝╚═╝  ╚═══╝  ╚═══╝  ╚═╝ ╚═════╝   ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝"${CL_RED}
+	@echo -e ${CL_RED}"═════════════════════════════════════════════════════════════"${CL_RED}
+	@echo -e ${CL_RED}"Device Name: "${CL_BLU} $(TARGET_DEVICE)                      ${CL_RST}
+	@echo -e $(CL_RED)"Treble Build: "${CL_BLU}"Images found in $OUT"                ${CL_RST}
+	@echo -e ${CL_RED}"═════════════════════════════════════════════════════════════"${CL_RED}
+endif
 endif    # build_ota_package
 
 # -----------------------------------------------------------------
