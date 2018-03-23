@@ -2859,7 +2859,7 @@ sandwich:
 	@echo -e ${CL_CYN}"                      \`        \`                                   "${CL_RST}
 measandwich: sandwich
 
-.PHONY: otapackage bacon ota
+.PHONY: otapackage bacon ota treble
 otapackage: $(INTERNAL_OTA_PACKAGE_TARGET)
 bacon: otapackage
 	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(INVICTRIX_TARGET_PACKAGE)
@@ -2877,6 +2877,14 @@ ota: bacon
 	$(hide) cp $(INVICTRIX_TARGET_PACKAGE) /usr/share/nginx/html/latest-$(TARGET_DEVICE).zip
 	@echo "Delta size:" `du -h /usr/share/nginx/html/latest-$(TARGET_DEVICE).zip.delta | cut -f 1`
 
+ifeq ($(PRODUCT_FULL_TREBLE),true)
+treble: systemimage bootimage
+	@echo ""
+	@echo -e ${CL_YLW}"════════════════════════════════════════════════════$
+	@echo -e $(CL_CYN)"Device Name: "${CL_MAG} $(TARGET_DEVICE)
+	@echo -e $(CL_CYN)"Treble Build: Images found in $OUT"
+	@echo -e ${CL_YLW}"════════════════════════════════════════════════════$
+endif
 endif    # build_ota_package
 
 # -----------------------------------------------------------------
