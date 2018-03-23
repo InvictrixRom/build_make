@@ -1,5 +1,6 @@
 # List of variables we want to print in the build banner.
 print_build_config_vars := \
+  INVICTRIX_BUILD \
   INVICTRIX_VERSION \
   TARGET_BUILD_VARIANT \
   TARGET_ARCH \
@@ -17,7 +18,8 @@ print_build_config_vars += \
 endif
 
 print_build_config_vars += \
-  BUILD_ID
+  BUILD_ID \
+  WITH_DEXPREOPT
 
 ifeq ($(TARGET_BUILD_PDK),true)
 print_build_config_vars += \
