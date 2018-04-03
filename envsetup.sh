@@ -1995,6 +1995,21 @@ function _wrap_build()
     return $ret
 }
 
+function vndkcd()
+{
+    if [ ! "$ANDROID_PRODUCT_OUT" ]; then
+        echo "Couldn't locate output files.  Try running 'lunch' first." >&2
+        return 1
+    elif [ ! "$ANDROID_PRODUCT_OUT/system/lib" ]; then
+        echo "This function can only run when the product has been successfully built." >&2
+        return 1
+    fi
+     python2 ${ANDROID_BUILD_TOP}/development/vndk/tools/definition-tool/vndk_definition_tool.py check-dep \
+      --system ${ANDROID_PRODUCT_OUT}/system \
+      --vendor ${ANDROID_PRODUCT_OUT}/vendor \
+      --tag-file ${ANDROID_BUILD_TOP}/development/vndk/tools/definition-tool/datasets/eligible-list-o-mr1-release.csv
+}
+
 function mk_timer()
 {
     local start_time=$(date +"%s")
