@@ -93,6 +93,6 @@ FRAMEWORKS_BASE_SUBDIRS := \
 FRAMEWORKS_BASE_JAVA_SRC_DIRS := \
 	$(addprefix frameworks/base/,$(FRAMEWORKS_BASE_SUBDIRS))
 
-ifneq ($(GZOSP_BUILD),)
--include $(TOPDIR)vendor/gzosp/build/core/pathmap.mk
+ifneq ($(INVICTRIX_BUILD),)
+-include $(TOPDIR)vendor/invictrix/build/core/pathmap.mk
 endif

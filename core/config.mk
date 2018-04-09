@@ -229,7 +229,7 @@ FIND_LEAVES_EXCLUDES := $(addprefix --prune=, $(SCAN_EXCLUDE_DIRS) .repo .git)
 $(call project-set-path-variant,recovery,RECOVERY_VARIANT,bootable/recovery)
 
 -include vendor/extra/BoardConfigExtra.mk
--include vendor/gzosp/config/BoardConfigGzosp.mk
+-include vendor/invictrix/config/BoardConfigInvictrix.mk
 
 # The build system exposes several variables for where to find the kernel
 # headers:
@@ -1097,10 +1097,10 @@ include $(BUILD_SYSTEM)/ninja_config.mk
 include $(BUILD_SYSTEM)/soong_config.mk
 endif
 
-ifneq ($(GZOSP_BUILD),)
+ifneq ($(INVICTRIX_BUILD),)
 ## We need to be sure the global selinux policies are included
 ## last, to avoid accidental resetting by device configs
-$(eval include device/gzosp/sepolicy/common/sepolicy.mk)
+$(eval include device/invictrix/sepolicy/common/sepolicy.mk)
 
 # Include any vendor specific config.mk file
 -include $(TOPDIR)vendor/*/build/core/config.mk
@@ -1109,10 +1109,10 @@ $(eval include device/gzosp/sepolicy/common/sepolicy.mk)
 -include $(TOPDIR)vendor/*/build/core/apicheck.mk
 
 # Rules for QCOM targets
--include $(TOPDIR)vendor/gzosp/build/core/qcom_target.mk
+-include $(TOPDIR)vendor/invictrix/build/core/qcom_target.mk
 
 # Rules for MTK targets
--include $(TOPDIR)vendor/gzosp/build/core/mtk_target.mk
+-include $(TOPDIR)vendor/invictrix/build/core/mtk_target.mk
 endif
 
 include $(BUILD_SYSTEM)/dumpvar.mk
