@@ -27,8 +27,8 @@ csv_to_json_list = $(call _json_list,$(comma),$(1))
 # Create soong.variables with copies of makefile settings.  Runs every build,
 # but only updates soong.variables if it changes
 SOONG_VARIABLES_TMP := $(shell mktemp -u)
-include vendor/gzosp/build/soong/soong_config.mk
-$(SOONG_VARIABLES): FORCE gzosp_soong
+include vendor/invictrix/build/soong/soong_config.mk
+$(SOONG_VARIABLES): FORCE invictrix_soong
 	$(hide) (\
 	echo '    "Make_suffix": "-$(TARGET_PRODUCT)",'; \
 	echo ''; \
