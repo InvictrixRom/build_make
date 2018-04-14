@@ -813,27 +813,36 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
   #script.Print("Target: {}".format(target_info.fingerprint))
   #script.Print("Target: %s" % target_fp)
 
-  script.Print(" ")
-  script.Print("         || THANK YOU FOR FLASHING ||        ");
-  script.Print(" ")
-  script.Print(" DDDDDDDDDDDDD         UUUUUUUU     UUUUUUUU ");
-  script.Print(" D::::::::::::DDD      U::::::U     U::::::U ");
-  script.Print(" D:::::::::::::::DD    U::::::U     U::::::U ");
-  script.Print(" DDD:::::DDDDD:::::D   UU:::::U     U:::::UU ");
-  script.Print("   D:::::D    D:::::D   U:::::U     U:::::U  ");
-  script.Print("   D:::::D     D:::::D  U:::::U     U:::::U  ");
-  script.Print("   D:::::D     D:::::D  U:::::U     U:::::U  ");
-  script.Print("   D:::::D     D:::::D  U:::::U     U:::::U  ");
-  script.Print("   D:::::D     D:::::D  U:::::U     U:::::U  ");
-  script.Print("   D:::::D     D:::::D  U:::::U     U:::::U  ");
-  script.Print("   D:::::D     D:::::D  U:::::U     U:::::U  ");
-  script.Print("   D:::::D    D:::::D   U::::::U   U::::::U  ");
-  script.Print(" DDD:::::DDDDD:::::D    U:::::::UUU:::::::U  ");
-  script.Print(" D:::::::::::::::DD      UU:::::::::::::UU   ");
-  script.Print(" D::::::::::::DDD          UU:::::::::UU     ");
-  script.Print(" DDDDDDDDDDDDD               UUUUUUUUU       ");
-  script.Print(" ")
-  script.Print("            ||| ANDROID 9.0.0 |||            ");
+  script.Print("**************************************************");
+  script.Print("                #SharpenYourBlade                 ");
+  script.Print("      ____            _       __        _         ");
+  script.Print("     /  _/___  _  __ (_)____ / /_ ____ (_)__ __   ");
+  script.Print("    _/ / / _ \| |/ // // __// __// __// / \ \ /   ");
+  script.Print("   /___//_//_/|___//_/ \__/ \__//_/  /_/ /_\_\    ");
+  script.Print("                                                  ");
+  script.Print("                   Android 9.0                    ");
+  script.Print("**************************************************");
+
+  if GetBuildProp("ro.invictrix.version", OPTIONS.info_dict) is not None:
+
+    version = GetBuildProp("ro.build.version.release", OPTIONS.info_dict)
+    manufacturer = GetBuildProp("ro.product.manufacturer", OPTIONS.info_dict)
+    model = GetBuildProp("ro.product.device", OPTIONS.info_dict)
+    maintainer = GetBuildProp("ro.invictrix.maintainer", OPTIONS.info_dict)
+    buildday = GetBuildProp("ro.build.date", OPTIONS.info_dict)
+    script.Print(" ******************* Rom Info ******************** ");
+    script.Print(" Version: %s"%(version));
+    script.Print("");
+    script.Print(" Manufacturer: %s"%(manufacturer));
+    script.Print("");
+    script.Print(" Model: %s"%(model));
+    script.Print("");
+    script.Print(" Maintainer: %s"%(maintainer));
+    script.Print("");
+    script.Print(" Build date: %s"%(buildday));
+    script.Print("");
+    script.Print(" ************************************************* ");
+
 
   script.AppendExtra("ifelse(is_mounted(\"/system\"), unmount(\"/system\"));")
   device_specific.FullOTA_InstallBegin()
@@ -953,6 +962,12 @@ def WriteMetadata(metadata, output_zip):
   common.ZipWriteStr(output_zip, METADATA_NAME, value,
                      compress_type=zipfile.ZIP_STORED)
 
+def GetBuildProp(prop, info_dict):
+  """Return the fingerprint of the build of a given target-files info_dict."""
+  try:
+    return info_dict.get("build.prop", {})[prop]
+  except KeyError:
+    raise common.ExternalError("couldn't find %s in build.prop" % (prop,))
 
 def HandleDowngradeMetadata(metadata, target_info, source_info):
   # Only incremental OTAs are allowed to reach here.
