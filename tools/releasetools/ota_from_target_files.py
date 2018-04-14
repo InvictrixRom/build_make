@@ -840,16 +840,33 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
 
   system_progress = 0.75
 
-  script.Print("*************************************************************");
-  script.Print("██╗███╗   ██╗██╗   ██╗██╗ ██████╗████████╗██████╗ ██╗██╗  ██╗");
-  script.Print("██║████╗  ██║██║   ██║██║██╔════╝╚══██╔══╝██╔══██╗██║╚██╗██╔╝");
-  script.Print("██║██╔██╗ ██║██║   ██║██║██║        ██║   ██████╔╝██║ ╚███╔╝ ");
-  script.Print("██║██║╚██╗██║╚██╗ ██╔╝██║██║        ██║   ██╔══██╗██║ ██╔██╗ ");
-  script.Print("██║██║ ╚████║ ╚████╔╝ ██║╚██████╗   ██║   ██║  ██║██║██╔╝ ██╗");
-  script.Print("╚═╝╚═╝  ╚═══╝  ╚═══╝  ╚═╝ ╚═════╝   ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝");
-  script.Print("                     Android Oreo 8.1                        ");
-  script.Print("*************************************************************");
-
+  script.Print("**************************************************");
+  script.Print("                #SharpenYourBlade                 ");  
+  script.Print("      ____            _       __        _         ");
+  script.Print("     /  _/___  _  __ (_)____ / /_ ____ (_)__ __   ");
+  script.Print("    _/ / / _ \| |/ // // __// __// __// / \ \ /   ");
+  script.Print("   /___//_//_/|___//_/ \__/ \__//_/  /_/ /_\_\    ");                                           
+  script.Print("                                                  ");
+  script.Print("            Ground Zero Based Project             ");
+  script.Print("**************************************************");
+                                                                                       
+  if GetBuildProp("ro.invictrix.version", OPTIONS.info_dict) is not None:
+  
+    version = GetBuildProp("ro.build.version.release", OPTIONS.info_dict)
+    manufacturer = GetBuildProp("ro.product.manufacturer", OPTIONS.info_dict)
+    model = GetBuildProp("ro.product.device", OPTIONS.info_dict)
+    buildday = GetBuildProp("ro.build.date", OPTIONS.info_dict)
+    script.Print(" ******************* Rom Info ******************** "); 
+    script.Print(" Version: %s"%(version));
+    script.Print("");
+    script.Print(" Manufacturer: %s"%(manufacturer));
+    script.Print("");
+    script.Print(" Model: %s"%(model));
+    script.Print("");
+    script.Print(" Build date: %s"%(buildday));
+    script.Print("");
+    script.Print(" ************************************************* ");
+ 
   if OPTIONS.wipe_user_data:
     system_progress -= 0.1
   if HasVendorPartition(input_zip):
