@@ -62,5 +62,7 @@ fi
 echo "ro.build.characteristics=$TARGET_AAPT_CHARACTERISTICS"
 
 echo "ro.invictrix.device=$INVICTRIX_DEVICE"
+echo "ro.invictrix.build.version=$INVICTRIX_BUILD_VERSION"
+echo "ro.invictrix.buildtype=$INVICTRIX_BUILD_TYPE"
 
 echo "# end build properties"
