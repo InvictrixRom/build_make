@@ -138,12 +138,12 @@ function check_product()
         return
     fi
 
-    if (echo -n $1 | grep -q -e "^du_") ; then
-       DU_BUILD=$(echo -n $1 | sed -e 's/^du_//g')
+    if (echo -n $1 | grep -q -e "^invictrix_") ; then
+       INVICTRIX_BUILD=$(echo -n $1 | sed -e 's/^invictrix_//g')
     else
-       DU_BUILD=
+       INVICTRIX_BUILD=
     fi
-    export DU_BUILD
+    export INVICTRIX_BUILD
 
         TARGET_PRODUCT=$1 \
         TARGET_BUILD_VARIANT= \
