@@ -224,7 +224,7 @@ include $(BUILD_SYSTEM)/envsetup.mk
 # See envsetup.mk for a description of SCAN_EXCLUDE_DIRS
 FIND_LEAVES_EXCLUDES := $(addprefix --prune=, $(SCAN_EXCLUDE_DIRS) .repo .git)
 
--include vendor/extras/build/core/BoardConfigExtra.mk
+-include vendor/invictrix/build/core/BoardConfigExtra.mk
 
 # The build system exposes several variables for where to find the kernel
 # headers:
@@ -1091,5 +1091,5 @@ endif
 include $(BUILD_SYSTEM)/dumpvar.mk
 
 # QCOM targets and pathmap
-include $(TOPDIR)vendor/extras/build/core/pathmap.mk
-include $(TOPDIR)vendor/extras/build/core/qcom_target.mk
+include $(TOPDIR)vendor/invictrix/build/core/pathmap.mk
+include $(TOPDIR)vendor/invictrix/build/core/qcom_target.mk
