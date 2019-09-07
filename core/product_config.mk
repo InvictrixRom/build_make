@@ -177,30 +177,38 @@ include $(BUILD_SYSTEM)/device.mk
 
 # Read in all of the product definitions specified by the AndroidProducts.mk
 # files in the tree.
-all_product_configs := $(get-all-product-makefiles)
-
+ifneq ($(INVICTRIX_BUILD),)
+  all_product_configs := $(shell ls device/*/$(INVICTRIX_BUILD)/invictrix.mk)
+else
+  all_product_configs := $(get-all-product-makefiles)
+endif
 all_named_products :=
 
-# Find the product config makefile for the current product.
-# all_product_configs consists items like:
-# <product_name>:<path_to_the_product_makefile>
-# or just <path_to_the_product_makefile> in case the product name is the
-# same as the base filename of the product config makefile.
-current_product_makefile :=
-all_product_makefiles :=
-$(foreach f, $(all_product_configs),\
-    $(eval _cpm_words := $(call _decode-product-name,$(f)))\
-    $(eval _cpm_word1 := $(word 1,$(_cpm_words)))\
-    $(eval _cpm_word2 := $(word 2,$(_cpm_words)))\
-    $(eval all_product_makefiles += $(_cpm_word2))\
-    $(eval all_named_products += $(_cpm_word1))\
-    $(if $(filter $(TARGET_PRODUCT),$(_cpm_word1)),\
-        $(eval current_product_makefile += $(_cpm_word2)),))
-_cpm_words :=
-_cpm_word1 :=
-_cpm_word2 :=
-current_product_makefile := $(strip $(current_product_makefile))
-all_product_makefiles := $(strip $(all_product_makefiles))
+ifeq ($(INVICTRIX_BUILD),)
+  # Find the product config makefile for the current product.
+  # all_product_configs consists items like:
+  # <product_name>:<path_to_the_product_makefile>
+  # or just <path_to_the_product_makefile> in case the product name is the
+  # same as the base filename of the product config makefile.
+  current_product_makefile :=
+  all_product_makefiles :=
+  $(foreach f, $(all_product_configs),\
+      $(eval _cpm_words := $(call _decode-product-name,$(f)))\
+      $(eval _cpm_word1 := $(word 1,$(_cpm_words)))\
+      $(eval _cpm_word2 := $(word 2,$(_cpm_words)))\
+      $(eval all_product_makefiles += $(_cpm_word2))\
+      $(eval all_named_products += $(_cpm_word1))\
+      $(if $(filter $(TARGET_PRODUCT),$(_cpm_word1)),\
+          $(eval current_product_makefile += $(_cpm_word2)),))
+  _cpm_words :=
+  _cpm_word1 :=
+  _cpm_word2 :=
+  current_product_makefile := $(strip $(current_product_makefile))
+  all_product_makefiles := $(strip $(all_product_makefiles))
+else
+  current_product_makefile := $(strip $(all_product_configs))
+  all_product_makefiles := $(strip $(all_product_configs))
+endif
 
 load_all_product_makefiles :=
 ifneq (,$(filter product-graph, $(MAKECMDGOALS)))
