@@ -234,13 +234,6 @@ FIND_LEAVES_EXCLUDES := $(addprefix --prune=, $(SCAN_EXCLUDE_DIRS) .repo .git)
 # be device and hardware independent.
 $(call project-set-path-variant,recovery,RECOVERY_VARIANT,bootable/recovery)
 
-<<<<<<< HEAD
-ifneq ($(INVICTRIX_BUILD),)
-include vendor/invictrix/config/BoardConfigInvictrix.mk
-endif
-
-=======
->>>>>>> 714797635... config: Include custom boardconfig a bit later
 # The build system exposes several variables for where to find the kernel
 # headers:
 #   TARGET_DEVICE_KERNEL_HEADERS is automatically created for the current
